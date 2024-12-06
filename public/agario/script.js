@@ -13,7 +13,7 @@ function setup() {
   // Some day we would run this server somewhere else
   socket = io.connect('http://localhost:3000');
 
-  blob = new Blob(random(width), random(height), random(8, 24));
+  blob = new Blob(random(width), random(height), 8);
   // Make a little object with  and y
   var data = {
     x: blob.pos.x,
@@ -21,6 +21,10 @@ function setup() {
     r: blob.r
   };
   socket.emit('start', data);
+
+  
+
+
 
   socket.on('heartbeat', function(data) {
     //console.log(data);

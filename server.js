@@ -1,12 +1,23 @@
 
 
 var blobs = [];
+const size = require('window-size');
+const windowWidth = size.width;
+const windowHeight = size.height;
 
 function Blob(id, x, y, r) {
   this.id = id;
   this.x = x;
   this.y = y;
   this.r = r;
+}
+
+//food blobs
+for (var i = 0; i < 200; i++) {
+  var x = Math.random() * windowWidth*3 - windowWidth*1.5;
+  var y = Math.random() * windowHeight*6 - windowHeight*2;
+  var r = 2;
+  blobs.push(new Blob('', x, y, r));
 }
 
 // Using express: http://expressjs.com/
@@ -66,6 +77,11 @@ io.sockets.on(
 
     socket.on('disconnect', function() {
       console.log('Client has disconnected');
+      for (var i = 0; i < blobs.length; i++) {
+        if (socket.id == blobs[i].id) {
+          blobs.splice(i, 1);
+        }
+      } 
     });
   }
 );
