@@ -7,6 +7,20 @@ var blob;
 var blobs = [];
 var zoom = 1;
 
+
+ //food blobs
+
+ function creatFood(){
+  var x = Math.random() * windowWidth;
+  var y = Math.random() * windowHeight;
+  var r = 2;
+  blobs.push(new Blob('', x, y, r));
+}
+
+for (var i = 0; i < 200; i++) {
+  creatFood();
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   // Start a socket connection to the server
@@ -22,15 +36,14 @@ function setup() {
   };
   socket.emit('start', data);
 
-  
-
-
 
   socket.on('heartbeat', function(data) {
     //console.log(data);
     blobs = data;
   });
 }
+
+
 
 function draw() {
   background(0);
@@ -53,11 +66,34 @@ function draw() {
       textSize(4);
       text(blobs[i].id, blobs[i].x, blobs[i].y + blobs[i].r);
     }
-    // blobs[i].show();
-    // if (blob.eats(blobs[i])) {
-    //   blobs.splice(i, 1);
-    // }
   }
+
+
+
+  for (var i = blobs.length - 1; i >= 0; i--) {
+    var id = blobs[i].id;
+  
+    // Ensure we're not checking the blob against itself
+    if (id.substring(2, id.length) !== socket.id) {
+      var d = dist(blob.pos.x, blob.pos.y, blobs[i].x, blobs[i].y);
+  
+      // Check if the blobs are colliding
+      if (d < blob.r + blobs[i].r) {
+  
+        // Check if the blob can eat the other blob (at least 10% smaller)
+        if (blob.r > blobs[i].r * 1.1) {
+          
+          // Grow the blob slightly when it eats another blob
+          blob.r += 0.01;  // You can adjust this value as needed
+          
+          blobs.splice(i, 1);
+
+        }
+      }
+    }
+  }
+  
+  
 
   blob.show();
   if (mouseIsPressed) {
