@@ -1,0 +1,10 @@
+https://github.com/yolonime/backend-agar
+
+comment start:
+
+git clone https://github.com/yolonime/backend-agar.git
+cd backend-agar
+npm install express
+npm install socket.io
+npm install window-size
+node server.js

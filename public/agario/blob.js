@@ -6,7 +6,7 @@ function Blob(x, y, r) {
   // Update position based on mouse movement
   this.update = function() {
     var newvel = createVector(mouseX - width / 2, mouseY - height / 2);
-    newvel.div(50);
+    newvel.div(20);
     newvel.limit(0.5);
     this.vel.lerp(newvel, 0.1);
     this.pos.add(this.vel);

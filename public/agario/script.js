@@ -8,21 +8,19 @@ var blobs = [];
 var zoom = 1;
 
 
- //food blobs
 
- function creatFood(){
-  var x = Math.random() * windowWidth;
-  var y = Math.random() * windowHeight;
-  var r = 2;
-  blobs.push(new Blob('', x, y, r));
-}
-
-for (var i = 0; i < 200; i++) {
-  creatFood();
-}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+
+  for (var i = 0; i < 200; i++) {
+    var x = random(-width, width); // Génère une position aléatoire dans les limites de la fenêtre
+    var y = random(-height, height);
+    var r = 2;
+    blobs.push(new Blob('', x, y, r));
+    console.log(blobs);
+  }
+  
   // Start a socket connection to the server
   // Some day we would run this server somewhere else
   socket = io.connect('http://localhost:3000');
